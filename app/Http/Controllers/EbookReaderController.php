@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Ebook;
+use App\Models\EbookRead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -13,11 +14,18 @@ class EbookReaderController extends Controller
     /**
      * Show the ebook reader page.
      */
-    public function show(Book $book)
+    public function show(Book $book, Request $request)
     {
         if (!$book->isEbook() || !$book->ebook) {
             abort(404);
         }
+
+        // Track ebook read
+        EbookRead::create([
+            'book_id' => $book->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
 
         $book->load(['category', 'ebook']);
 

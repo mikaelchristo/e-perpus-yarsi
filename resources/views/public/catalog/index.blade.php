@@ -110,7 +110,7 @@
 <!--end::Books Grid-->
 
 <!--begin::Pagination-->
-<div class="d-flex justify-content-center mt-10">
+<div class="mt-10">
     {{ $books->withQueryString()->links() }}
 </div>
 <!--end::Pagination-->

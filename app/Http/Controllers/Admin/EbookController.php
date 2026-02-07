@@ -14,7 +14,7 @@ class EbookController extends Controller
     public function index(Request $request)
     {
         $books = Book::with(['category', 'ebook'])
-            ->ebook()
+            ->ebooks()
             ->search($request->search)
             ->latest()
             ->paginate(15);

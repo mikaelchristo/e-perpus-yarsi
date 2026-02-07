@@ -13,7 +13,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $books = Book::with('category')
-            ->physical()
+            ->physicals()
             ->search($request->search)
             ->when($request->year, fn($q, $y) => $q->where('year', $y))
             ->latest()

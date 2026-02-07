@@ -44,6 +44,14 @@
                 </form>
             </div>
         </div>
+        <div class="card-toolbar d-flex gap-2">
+            <a href="{{ route('admin.io.export.loans') }}" class="btn btn-light-success">
+                <i class="ki-duotone ki-file-down fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> Export
+            </a>
+            <button type="button" class="btn btn-light-info" data-bs-toggle="modal" data-bs-target="#importModal">
+                <i class="ki-duotone ki-file-up fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> Import
+            </button>
+        </div>
     </div>
     <div class="card-body py-4">
         <div class="table-responsive">
@@ -119,9 +127,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-end mt-4">
-            {{ $loans->withQueryString()->links() }}
-        </div>
+        {{ $loans->withQueryString()->links() }}
     </div>
 </div>
+
+@include('partials._import-modal', [
+    'title' => 'Import Peminjaman',
+    'importRoute' => route('admin.io.import.loans'),
+    'templateRoute' => route('admin.io.template', 'loans'),
+])
 @endsection

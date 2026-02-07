@@ -49,6 +49,11 @@ class Book extends Model
         return $this->hasMany(Loan::class)->where('status', 'borrowed');
     }
 
+    public function ebookReads(): HasMany
+    {
+        return $this->hasMany(EbookRead::class);
+    }
+
     public function isPhysical(): bool
     {
         return $this->category && $this->category->slug === 'physical';
@@ -68,12 +73,12 @@ class Book extends Model
         return $this->stock > 0;
     }
 
-    public function scopePhysical($query)
+    public function scopePhysicals($query)
     {
         return $query->whereHas('category', fn($q) => $q->where('slug', 'physical'));
     }
 
-    public function scopeEbook($query)
+    public function scopeEbooks($query)
     {
         return $query->whereHas('category', fn($q) => $q->where('slug', 'ebook'));
     }

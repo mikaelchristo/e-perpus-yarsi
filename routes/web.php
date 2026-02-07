@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\EbookController;
 use App\Http\Controllers\Admin\LoanController;
+use App\Http\Controllers\Admin\ImportExportController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\EbookReaderController;
@@ -69,4 +70,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/loans/{loan}', [LoanController::class, 'show'])->name('loans.show');
     Route::patch('/loans/{loan}/return', [LoanController::class, 'returnBook'])->name('loans.return');
     Route::delete('/loans/{loan}', [LoanController::class, 'destroy'])->name('loans.destroy');
+
+    // Import & Export
+    Route::prefix('import-export')->name('io.')->group(function () {
+        // Exports
+        Route::get('/export/categories', [ImportExportController::class, 'exportCategories'])->name('export.categories');
+        Route::get('/export/books', [ImportExportController::class, 'exportBooks'])->name('export.books');
+        Route::get('/export/ebooks', [ImportExportController::class, 'exportEbooks'])->name('export.ebooks');
+        Route::get('/export/loans', [ImportExportController::class, 'exportLoans'])->name('export.loans');
+
+        // Imports
+        Route::post('/import/categories', [ImportExportController::class, 'importCategories'])->name('import.categories');
+        Route::post('/import/books', [ImportExportController::class, 'importBooks'])->name('import.books');
+        Route::post('/import/ebooks', [ImportExportController::class, 'importEbooks'])->name('import.ebooks');
+        Route::post('/import/loans', [ImportExportController::class, 'importLoans'])->name('import.loans');
+
+        // Templates
+        Route::get('/template/{type}', [ImportExportController::class, 'downloadTemplate'])->name('template');
+    });
 });
